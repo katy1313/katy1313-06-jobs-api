@@ -17,7 +17,7 @@ const ProductSchema = new mongoose.Schema({
     flavor: {
         type: String,
         required: [true, 'Please provide main flavor'],
-        enum: ['jasmin', 'strawberry', 'mixedberries', 'grape', 'tropical'],
+        enum: ['jasmine', 'strawberry', 'mixedberries', 'grape', 'tropical'],
         trim: true,
         maxlength: [100, 'Name cannot be more than 100 characters'],
     },
