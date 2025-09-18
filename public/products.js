@@ -20,7 +20,7 @@ export const handleProducts = () => {
   productsTable = document.getElementById("products-table");
   productsTableHeader = document.getElementById("products-table-header");
 
-  productsDiv.addEventListener("click", (e) => {
+  productsDiv.addEventListener("click", async(e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target === addProduct) {
         showAddEdit(null);
@@ -32,6 +32,31 @@ export const handleProducts = () => {
       } else if (e.target.classList.contains("editButton")) {
         message.textContent = "";
         showAddEdit(e.target.dataset.id);
+      } else if (e.target.classList.contains("deleteButton")) {
+      const id = e.target.dataset.id;
+      message.textContent = "The product was deleted";
+
+      try {
+        const response = await fetch(`/api/v1/products/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          message.textContent = "The product entry was deleted.";
+          showProducts(); // refresh the product list
+        } else {
+          message.textContent = data.msg || "Unable to delete product.";
+        }
+      } catch (err) {
+        console.error(err);
+        message.textContent = "A communication error occurred.";
+      }
       }
     }
   });

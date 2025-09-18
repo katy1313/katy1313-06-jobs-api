@@ -13,7 +13,6 @@ export const handleAddEdit = () => {
   category = document.getElementById("category");
   flavor = document.getElementById("flavor");
   addingProduct = document.getElementById("adding-product");
-  const deleteButton = document.getElementsByClassName("deleteButton")
   const editCancel = document.getElementById("edit-cancel");
 
   addEditDiv.addEventListener("click", async (e) => {
@@ -65,35 +64,9 @@ export const handleAddEdit = () => {
         }
         enableInput(true);
       }
-      if (e.target.classList.contains("deleteButton")) {
-          const method = "DELETE"
-          const url = `/api/v1/products/${addEditDiv.dataset.id}`;
-          console.log("Deleting product with ID:", addEditDiv.dataset.id);
-          try {
-            const response = await fetch(url, {
-              method: method,
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            })
-            const data = await response.json();
-            if (response.status === 200) {
-              message.textContent = "The product entry was deleted."
-              const updatedProducts = data.products.filter((p) => p.id !== addEditDiv.dataset.id)
-              showProducts(updatedProducts)
-            } else {
-              message.textContent = data.msg;
-            }
-          } catch (err) {
-            console.log(err);
-            message.textContent = "A communication error occurred.";
-          }
-          enableInput(true);
-        }
     }
   });
-};
+}
 
 export const showAddEdit = async (productId) => {
   if (!productId) {
