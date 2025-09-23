@@ -25,7 +25,7 @@ const createProduct = async(req, res) => {
 }
 const updateProduct = async(req, res) => {
     const {
-        user:{userId}, 
+        user:{userId},
         params:{id:productId},
         body: {name},
     } = req
@@ -58,7 +58,7 @@ const deleteProduct = async(req, res) => {
     if(!product) {
         throw new NotFoundError('No product has been found')
     }
-    res.status(StatusCodes.OK)
+    res.status(StatusCodes.OK).json({msg: "The entry was deleted"})
 }
 
 
